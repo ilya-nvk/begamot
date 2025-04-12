@@ -36,12 +36,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.begamot.pethosting.R
 import com.begamot.pethosting.data.models.Message
 import com.begamot.pethosting.data.models.User
 import java.text.SimpleDateFormat
@@ -62,10 +64,10 @@ fun MessagesScreen(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Messages") },
+                title = { Text(stringResource(R.string.messages)) },
                 navigationIcon = {
                     IconButton(onClick = { navController.navigateUp() }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                 }
             )
@@ -139,7 +141,7 @@ fun ConversationItem(
     ) {
         AsyncImage(
             model = conversation.user.profileImageUrl,
-            contentDescription = "User Image",
+            contentDescription = stringResource(R.string.user_image),
             modifier = Modifier
                 .size(56.dp)
                 .clip(CircleShape),
@@ -208,15 +210,16 @@ data class Conversation(
     val currentUserId: String
 )
 
+@Composable
 fun formatTimestamp(timestamp: Long): String {
     val now = System.currentTimeMillis()
     val diff = now - timestamp
     
     return when {
-        diff < 60 * 1000 -> "Just now"
-        diff < 60 * 60 * 1000 -> "${diff / (60 * 1000)}m ago"
-        diff < 24 * 60 * 60 * 1000 -> "${diff / (60 * 60 * 1000)}h ago"
-        diff < 48 * 60 * 60 * 1000 -> "Yesterday"
+        diff < 60 * 1000 -> stringResource(R.string.just_now)
+        diff < 60 * 60 * 1000 -> stringResource(R.string.m_ago, diff / (60 * 1000))
+        diff < 24 * 60 * 60 * 1000 -> stringResource(R.string.h_ago, diff / (60 * 60 * 1000))
+        diff < 48 * 60 * 60 * 1000 -> stringResource(R.string.yesterday)
         else -> {
             val format = SimpleDateFormat("MMM dd", Locale.getDefault())
             format.format(Date(timestamp))

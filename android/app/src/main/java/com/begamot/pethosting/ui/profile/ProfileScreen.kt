@@ -52,10 +52,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.begamot.pethosting.R
 import com.begamot.pethosting.data.models.Pet
 import com.begamot.pethosting.data.models.Review
 import com.begamot.pethosting.ui.ListingItem
@@ -83,15 +85,15 @@ fun ProfileScreen(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("My Profile") },
+                title = { Text(stringResource(R.string.my_profile)) },
                 navigationIcon = {
                     IconButton(onClick = { navController.navigateUp() }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                 },
                 actions = {
                     IconButton(onClick = { navController.navigate("settings") }) {
-                        Icon(Icons.Default.Settings, contentDescription = "Settings")
+                        Icon(Icons.Default.Settings, contentDescription = stringResource(R.string.settings))
                     }
                 }
             )
@@ -136,7 +138,7 @@ fun ProfileScreen(navController: NavController) {
                     ) {
                         AsyncImage(
                             model = user?.profileImageUrl,
-                            contentDescription = "Profile Image",
+                            contentDescription = stringResource(R.string.profile_image),
                             modifier = Modifier
                                 .size(100.dp)
                                 .clip(CircleShape)
@@ -166,7 +168,15 @@ fun ProfileScreen(navController: NavController) {
                             Spacer(modifier = Modifier.width(4.dp))
                             
                             Text(
-                                text = "${user?.rating} (${user?.reviewCount} reviews)",
+                                text = user?.rating?.let {
+                                    user?.reviewCount?.let { it1 ->
+                                        stringResource(
+                                            R.string.reviews_count,
+                                            it,
+                                            it1
+                                        )
+                                    }
+                                } ?: stringResource(R.string.no_reviews_yet),
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.onPrimaryContainer
                             )
@@ -176,7 +186,7 @@ fun ProfileScreen(navController: NavController) {
                                 
                                 Icon(
                                     imageVector = Icons.Default.Done,
-                                    contentDescription = "Verified User",
+                                    contentDescription = stringResource(R.string.verified_user),
                                     tint = MaterialTheme.colorScheme.secondary,
                                     modifier = Modifier.size(16.dp)
                                 )
@@ -184,7 +194,7 @@ fun ProfileScreen(navController: NavController) {
                                 Spacer(modifier = Modifier.width(4.dp))
                                 
                                 Text(
-                                    text = "Verified",
+                                    text = stringResource(R.string.verified),
                                     style = MaterialTheme.typography.bodyMedium,
                                     color = MaterialTheme.colorScheme.secondary
                                 )
@@ -195,7 +205,8 @@ fun ProfileScreen(navController: NavController) {
                 
                 // Content with tabs
                 var selectedTabIndex by remember { mutableIntStateOf(0) }
-                val tabs = listOf("My Pets", "My Listings", "Reviews")
+                val tabs = listOf(stringResource(R.string.my_pets),
+                    stringResource(R.string.my_listings), stringResource(R.string.reviews))
                 
                 TabRow(selectedTabIndex = selectedTabIndex) {
                     tabs.forEachIndexed { index, title ->
@@ -217,7 +228,7 @@ fun ProfileScreen(navController: NavController) {
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(
-                                    text = "My Pets",
+                                    text = stringResource(R.string.my_pets),
                                     style = MaterialTheme.typography.titleLarge
                                 )
                                 
@@ -226,7 +237,7 @@ fun ProfileScreen(navController: NavController) {
                                 ) {
                                     Icon(Icons.Default.Add, contentDescription = null)
                                     Spacer(modifier = Modifier.width(4.dp))
-                                    Text("Add Pet")
+                                    Text(stringResource(R.string.add_pet))
                                 }
                             }
                             
@@ -235,7 +246,7 @@ fun ProfileScreen(navController: NavController) {
                             if (pets.isEmpty()) {
                                 EmptyState(
                                     icon = Icons.Default.Face, // Icons.Default.Pets,
-                                    message = "You haven't added any pets yet"
+                                    message = stringResource(R.string.you_haven_t_added_any_pets_yet)
                                 )
                             } else {
                                 LazyRow(
@@ -261,7 +272,7 @@ fun ProfileScreen(navController: NavController) {
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(
-                                    text = "My Listings",
+                                    text = stringResource(R.string.my_listings),
                                     style = MaterialTheme.typography.titleLarge
                                 )
                                 
@@ -270,7 +281,7 @@ fun ProfileScreen(navController: NavController) {
                                 ) {
                                     Icon(Icons.Default.Add, contentDescription = null)
                                     Spacer(modifier = Modifier.width(4.dp))
-                                    Text("Create")
+                                    Text(stringResource(R.string.create))
                                 }
                             }
                             
@@ -279,7 +290,7 @@ fun ProfileScreen(navController: NavController) {
                             if (listings.isEmpty()) {
                                 EmptyState(
                                     icon = Icons.Default.Info,
-                                    message = "You haven't created any listings yet"
+                                    message = stringResource(R.string.you_haven_t_created_any_listings_yet)
                                 )
                             } else {
                                 Column(
@@ -299,7 +310,7 @@ fun ProfileScreen(navController: NavController) {
                         // Reviews Tab
                         Column(modifier = Modifier.padding(16.dp)) {
                             Text(
-                                text = "Reviews",
+                                text = stringResource(R.string.reviews),
                                 style = MaterialTheme.typography.titleLarge
                             )
                             

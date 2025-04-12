@@ -47,10 +47,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.begamot.pethosting.R
 import com.begamot.pethosting.ui.listings.ListingDetailViewModel.ResponseState
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -76,10 +78,13 @@ fun ListingDetailScreen(navController: NavController, listingId: String) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Listing Details") },
+                title = { Text(stringResource(R.string.listing_details)) },
                 navigationIcon = {
                     IconButton(onClick = { navController.navigateUp() }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(
+                            R.string.back
+                        )
+                        )
                     }
                 }
             )
@@ -112,7 +117,7 @@ fun ListingDetailScreen(navController: NavController, listingId: String) {
                         
                         AsyncImage(
                             model = pet?.imageUrls?.getOrNull(currentImageIndex),
-                            contentDescription = "Pet Image",
+                            contentDescription = stringResource(R.string.pet_image),
                             modifier = Modifier.fillMaxSize(),
                             contentScale = ContentScale.Crop
                         )
@@ -204,7 +209,7 @@ fun ListingDetailScreen(navController: NavController, listingId: String) {
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
                             Text(
-                                text = "Pet Information",
+                                text = stringResource(R.string.pet_information),
                                 style = MaterialTheme.typography.titleMedium
                             )
                             
@@ -214,7 +219,7 @@ fun ListingDetailScreen(navController: NavController, listingId: String) {
                                 Row(verticalAlignment = Alignment.CenterVertically) {
                                     AsyncImage(
                                         model = it.imageUrls.firstOrNull(),
-                                        contentDescription = "Pet Image",
+                                        contentDescription = stringResource(R.string.pet_image),
                                         modifier = Modifier
                                             .size(48.dp)
                                             .clip(CircleShape),
@@ -230,7 +235,12 @@ fun ListingDetailScreen(navController: NavController, listingId: String) {
                                         )
                                         
                                         Text(
-                                            text = "${it.type}, ${it.breed}, ${it.age} years old",
+                                            text = stringResource(
+                                                R.string.years_old,
+                                                it.type,
+                                                it.breed,
+                                                it.age
+                                            ),
                                             style = MaterialTheme.typography.bodyMedium
                                         )
                                     }
@@ -250,7 +260,7 @@ fun ListingDetailScreen(navController: NavController, listingId: String) {
                     
                     // Listing description
                     Text(
-                        text = "Description",
+                        text = stringResource(R.string.description),
                         style = MaterialTheme.typography.titleMedium
                     )
                     
@@ -282,7 +292,7 @@ fun ListingDetailScreen(navController: NavController, listingId: String) {
                                 ) {
                                     AsyncImage(
                                         model = it.profileImageUrl,
-                                        contentDescription = "Owner Image",
+                                        contentDescription = stringResource(R.string.owner_image),
                                         modifier = Modifier
                                             .size(48.dp)
                                             .clip(CircleShape),
@@ -308,7 +318,11 @@ fun ListingDetailScreen(navController: NavController, listingId: String) {
                                             Spacer(modifier = Modifier.width(4.dp))
                                             
                                             Text(
-                                                text = "${it.rating} (${it.reviewCount} reviews)",
+                                                text = stringResource(
+                                                    R.string.reviews,
+                                                    it.rating,
+                                                    it.reviewCount
+                                                ),
                                                 style = MaterialTheme.typography.bodySmall
                                             )
                                         }
@@ -320,7 +334,7 @@ fun ListingDetailScreen(navController: NavController, listingId: String) {
                                         ) {
                                             Icon(
                                                 imageVector = Icons.Default.Email, //Icons.Default.Chat,
-                                                contentDescription = "Chat with owner"
+                                                contentDescription = stringResource(R.string.chat_with_owner)
                                             )
                                         }
                                     }
@@ -337,7 +351,7 @@ fun ListingDetailScreen(navController: NavController, listingId: String) {
                         when (responseState) {
                             is ResponseState.Pending -> {
                                 Text(
-                                    text = "Your response is pending",
+                                    text = stringResource(R.string.your_response_is_pending),
                                     style = MaterialTheme.typography.bodyLarge,
                                     color = MaterialTheme.colorScheme.secondary
                                 )
@@ -345,7 +359,7 @@ fun ListingDetailScreen(navController: NavController, listingId: String) {
                             is ResponseState.Accepted -> {
                                 Column {
                                     Text(
-                                        text = "Your response has been accepted!",
+                                        text = stringResource(R.string.your_response_has_been_accepted),
                                         style = MaterialTheme.typography.bodyLarge,
                                         color = MaterialTheme.colorScheme.primary
                                     )
@@ -356,14 +370,14 @@ fun ListingDetailScreen(navController: NavController, listingId: String) {
                                         onClick = { navController.navigate("payment/${listing?.id}") },
                                         modifier = Modifier.fillMaxWidth()
                                     ) {
-                                        Text(text = "Proceed to Payment")
+                                        Text(text = stringResource(R.string.proceed_to_payment))
                                     }
                                 }
                             }
                             is ResponseState.NotSent -> {
                                 Column {
                                     Text(
-                                        text = "Respond to this Listing",
+                                        text = stringResource(R.string.respond_to_this_listing),
                                         style = MaterialTheme.typography.titleMedium
                                     )
 
@@ -374,7 +388,7 @@ fun ListingDetailScreen(navController: NavController, listingId: String) {
                                     TextField(
                                         value = responseMessage,
                                         onValueChange = { responseMessage = it },
-                                        label = { Text("Your message to the owner") },
+                                        label = { Text(stringResource(R.string.your_message_to_the_owner)) },
                                         modifier = Modifier.fillMaxWidth(),
                                         minLines = 3
                                     )
@@ -386,14 +400,14 @@ fun ListingDetailScreen(navController: NavController, listingId: String) {
                                         enabled = responseMessage.isNotEmpty(),
                                         modifier = Modifier.fillMaxWidth()
                                     ) {
-                                        Text(text = "Send Response")
+                                        Text(text = stringResource(R.string.send_response))
                                     }
                                 }
                             }
 
                             ResponseState.Rejected -> {
                                 Text(
-                                    text = "Your response has been rejected",
+                                    text = stringResource(R.string.your_response_has_been_rejected),
                                     style = MaterialTheme.typography.bodyLarge,
                                     color = MaterialTheme.colorScheme.error
                                 )
@@ -409,7 +423,7 @@ fun ListingDetailScreen(navController: NavController, listingId: String) {
                                 onClick = { navController.navigate("listing/edit/${listing?.id}") },
                                 modifier = Modifier.weight(1f)
                             ) {
-                                Text(text = "Edit Listing")
+                                Text(text = stringResource(R.string.edit_listing))
                             }
                             
                             Spacer(modifier = Modifier.width(16.dp))
@@ -418,7 +432,7 @@ fun ListingDetailScreen(navController: NavController, listingId: String) {
                                 onClick = { navController.navigate("listing/responses/${listing?.id}") },
                                 modifier = Modifier.weight(1f)
                             ) {
-                                Text(text = "View Responses")
+                                Text(text = stringResource(R.string.view_responses))
                             }
                         }
                     }

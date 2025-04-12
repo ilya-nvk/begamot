@@ -41,10 +41,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.begamot.pethosting.R
 import com.begamot.pethosting.data.models.Message
 import com.begamot.pethosting.ui.ChatViewModel
 
@@ -70,7 +72,7 @@ fun ChatScreen(navController: NavController, userId: String) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             AsyncImage(
                                 model = it.profileImageUrl,
-                                contentDescription = "User Image",
+                                contentDescription = stringResource(R.string.user_image),
                                 modifier = Modifier
                                     .size(40.dp)
                                     .clip(CircleShape),
@@ -84,7 +86,7 @@ fun ChatScreen(navController: NavController, userId: String) {
                     },
                     navigationIcon = {
                         IconButton(onClick = { navController.navigateUp() }) {
-                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
                         }
                     }
                 )
@@ -92,7 +94,7 @@ fun ChatScreen(navController: NavController, userId: String) {
                 title = { Text("Chat") },
                 navigationIcon = {
                     IconButton(onClick = { navController.navigateUp() }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                 }
             )
@@ -141,7 +143,7 @@ fun ChatScreen(navController: NavController, userId: String) {
                 TextField(
                     value = messageText,
                     onValueChange = { messageText = it },
-                    placeholder = { Text("Type a message") },
+                    placeholder = { Text(stringResource(R.string.type_a_message)) },
                     modifier = Modifier.weight(1f),
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = MaterialTheme.colorScheme.surface,
@@ -169,7 +171,7 @@ fun ChatScreen(navController: NavController, userId: String) {
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Default.Send,
-                        contentDescription = "Send",
+                        contentDescription = stringResource(R.string.send),
                         tint = MaterialTheme.colorScheme.onPrimary
                     )
                 }

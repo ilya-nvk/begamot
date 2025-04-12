@@ -38,12 +38,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.begamot.pethosting.R
 import com.begamot.pethosting.data.models.User
 
 @Composable
@@ -72,7 +74,7 @@ fun RegisterScreen(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Create Account",
+            text = stringResource(R.string.create_account),
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.padding(vertical = 24.dp)
         )
@@ -90,14 +92,14 @@ fun RegisterScreen(navController: NavController) {
             if (profileImage != null) {
                 AsyncImage(
                     model = profileImage,
-                    contentDescription = "Profile Image",
+                    contentDescription = stringResource(R.string.profile_image),
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop
                 )
             } else {
                 Icon(
                     imageVector = Icons.Default.Person,
-                    contentDescription = "Add Profile Image",
+                    contentDescription = stringResource(R.string.add_profile_image),
                     tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
                     modifier = Modifier.size(48.dp)
                 )
@@ -110,7 +112,7 @@ fun RegisterScreen(navController: NavController) {
         TextField(
             value = fullName,
             onValueChange = { fullName = it },
-            label = { Text("Full Name") },
+            label = { Text(stringResource(R.string.full_name)) },
             modifier = Modifier.fillMaxWidth()
         )
         
@@ -119,7 +121,7 @@ fun RegisterScreen(navController: NavController) {
         TextField(
             value = email,
             onValueChange = { email = it },
-            label = { Text("Email") },
+            label = { Text(stringResource(R.string.email)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             modifier = Modifier.fillMaxWidth()
         )
@@ -129,7 +131,7 @@ fun RegisterScreen(navController: NavController) {
         TextField(
             value = phone,
             onValueChange = { phone = it },
-            label = { Text("Phone Number") },
+            label = { Text(stringResource(R.string.phone_number)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
             modifier = Modifier.fillMaxWidth()
         )
@@ -139,7 +141,7 @@ fun RegisterScreen(navController: NavController) {
         TextField(
             value = password,
             onValueChange = { password = it },
-            label = { Text("Password") },
+            label = { Text(stringResource(R.string.password)) },
             visualTransformation = VisualTransformation.None, // passport
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             modifier = Modifier.fillMaxWidth()
@@ -150,7 +152,7 @@ fun RegisterScreen(navController: NavController) {
         TextField(
             value = confirmPassword,
             onValueChange = { confirmPassword = it },
-            label = { Text("Confirm Password") },
+            label = { Text(stringResource(R.string.confirm_password)) },
             visualTransformation = VisualTransformation.None, // passport
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             modifier = Modifier.fillMaxWidth(),
@@ -159,7 +161,7 @@ fun RegisterScreen(navController: NavController) {
         
         if (password != confirmPassword && confirmPassword.isNotEmpty()) {
             Text(
-                text = "Passwords do not match",
+                text = stringResource(R.string.passwords_do_not_match),
                 color = MaterialTheme.colorScheme.error,
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier
@@ -189,14 +191,14 @@ fun RegisterScreen(navController: NavController) {
             if (registerState.isLoading) {
                 CircularProgressIndicator(color = MaterialTheme.colorScheme.onPrimary)
             } else {
-                Text("Register")
+                Text(stringResource(R.string.phone_number))
             }
         }
         
         Spacer(modifier = Modifier.height(16.dp))
         
         TextButton(onClick = { navController.navigate("login") }) {
-            Text("Already have an account? Login")
+            Text(stringResource(R.string.already_have_an_account_login))
         }
         
         if (registerState.error != null) {

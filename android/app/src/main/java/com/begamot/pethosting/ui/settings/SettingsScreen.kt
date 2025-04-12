@@ -26,9 +26,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.begamot.pethosting.R
 import com.begamot.pethosting.ui.auth.AuthViewModel
 import com.begamot.pethosting.ui.profile.ProfileViewModel
 
@@ -45,10 +47,10 @@ fun SettingsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Settings") },
+                title = { Text(stringResource(R.string.settings)) },
                 navigationIcon = {
                     IconButton(onClick = { navController.navigateUp() }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                 }
             )
@@ -73,7 +75,7 @@ fun SettingsScreen(
                     onClick = { navController.navigate("profile") },
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(text = "Edit Profile")
+                    Text(text = stringResource(R.string.edit_profile))
                 }
             }
 
@@ -82,14 +84,14 @@ fun SettingsScreen(
                 onClick = { /* Логика изменения языка */ },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(text = "Change Language")
+                Text(text = stringResource(R.string.change_language))
             }
 
             Button(
                 onClick = { /* Логика изменения темы */ },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(text = "Change Theme")
+                Text(text = stringResource(R.string.change_theme))
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -98,7 +100,7 @@ fun SettingsScreen(
             Button(
                 onClick = {
                     authViewModel.logout()
-                    Toast.makeText(context, "Logged out", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(R.string.logged_out), Toast.LENGTH_SHORT).show()
                     navController.navigate("login") {
                         popUpTo("home") { inclusive = true }
                     }
@@ -106,7 +108,7 @@ fun SettingsScreen(
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
             ) {
-                Text(text = "Logout")
+                Text(text = stringResource(R.string.logout))
             }
         }
     }

@@ -40,11 +40,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.begamot.pethosting.R
 import com.begamot.pethosting.data.models.Listing
 import com.begamot.pethosting.ui.listings.ListingViewModel
 import java.text.SimpleDateFormat
@@ -65,7 +67,7 @@ fun HomeScreen(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Pet Hosting") },
+                title = { Text(stringResource(R.string.pet_hosting)) },
                 actions = {
                     IconButton(onClick = { navController.navigate("profile") }) {
                         Icon(Icons.Default.Person, contentDescription = "Profile")
@@ -151,7 +153,7 @@ fun ListingItem(listing: Listing, onClick: () -> Unit) {
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
-                        text = "${it.name} (${it.breed}, ${it.age} years)",
+                        text = stringResource(R.string.years, it.name, it.breed, it.age),
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
@@ -177,7 +179,7 @@ fun ListingItem(listing: Listing, onClick: () -> Unit) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         AsyncImage(
                             model = it.profileImageUrl,
-                            contentDescription = "Owner",
+                            contentDescription = stringResource(R.string.owner),
                             modifier = Modifier
                                 .size(24.dp)
                                 .clip(CircleShape),
@@ -192,7 +194,11 @@ fun ListingItem(listing: Listing, onClick: () -> Unit) {
                 }
                 
                 val dateFormat = SimpleDateFormat("MMM dd - MMM dd", Locale.getDefault())
-                val dateRange = "${dateFormat.format(Date(listing.startDate))} to ${dateFormat.format(Date(listing.endDate))}"
+                val dateRange = stringResource(
+                    R.string.date_range,
+                    dateFormat.format(Date(listing.startDate)),
+                    dateFormat.format(Date(listing.endDate))
+                )
                 
                 Text(
                     text = dateRange,

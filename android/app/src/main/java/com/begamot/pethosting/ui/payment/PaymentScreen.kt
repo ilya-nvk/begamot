@@ -46,6 +46,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -53,6 +54,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.begamot.pethosting.R
 import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -78,10 +80,10 @@ fun PaymentScreen(navController: NavController, listingId: String) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Payment") },
+                title = { Text(stringResource(R.string.payment)) },
                 navigationIcon = {
                     IconButton(onClick = { navController.navigateUp() }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                 }
             )
@@ -111,7 +113,7 @@ fun PaymentScreen(navController: NavController, listingId: String) {
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Text(
-                            text = "Payment Summary",
+                            text = stringResource(R.string.payment_summary),
                             style = MaterialTheme.typography.titleLarge
                         )
                         
@@ -122,7 +124,7 @@ fun PaymentScreen(navController: NavController, listingId: String) {
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text(
-                                text = "Listing",
+                                text = stringResource(R.string.listing),
                                 style = MaterialTheme.typography.bodyMedium
                             )
                             
@@ -140,7 +142,7 @@ fun PaymentScreen(navController: NavController, listingId: String) {
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text(
-                                text = "Pet Sitter",
+                                text = stringResource(R.string.pet_sitter),
                                 style = MaterialTheme.typography.bodyMedium
                             )
                             
@@ -160,7 +162,7 @@ fun PaymentScreen(navController: NavController, listingId: String) {
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text(
-                                text = "Start Date",
+                                text = stringResource(R.string.start_date),
                                 style = MaterialTheme.typography.bodyMedium
                             )
                             
@@ -178,7 +180,7 @@ fun PaymentScreen(navController: NavController, listingId: String) {
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text(
-                                text = "End Date",
+                                text = stringResource(R.string.end_date),
                                 style = MaterialTheme.typography.bodyMedium
                             )
                             
@@ -203,12 +205,12 @@ fun PaymentScreen(navController: NavController, listingId: String) {
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text(
-                                text = "Service Fee",
+                                text = stringResource(R.string.service_fee),
                                 style = MaterialTheme.typography.bodyMedium
                             )
                             
                             Text(
-                                text = "$${String.format("%.2f", serviceFee)}",
+                                text = "₽${String.format("%.2f", serviceFee)}",
                                 style = MaterialTheme.typography.bodyMedium
                             )
                         }
@@ -220,7 +222,7 @@ fun PaymentScreen(navController: NavController, listingId: String) {
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text(
-                                text = "Total",
+                                text = stringResource(R.string.total),
                                 style = MaterialTheme.typography.titleMedium
                             )
                             
@@ -237,7 +239,7 @@ fun PaymentScreen(navController: NavController, listingId: String) {
                 
                 // Payment method selection
                 Text(
-                    text = "Payment Method",
+                    text = stringResource(R.string.payment_method),
                     style = MaterialTheme.typography.titleMedium
                 )
                 
@@ -250,7 +252,7 @@ fun PaymentScreen(navController: NavController, listingId: String) {
                     ) {
                         Icon(Icons.Default.Add, contentDescription = null)
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("Add Payment Method")
+                        Text(stringResource(R.string.add_payment_method))
                     }
                 } else {
                     Card(
@@ -301,14 +303,14 @@ fun PaymentScreen(navController: NavController, listingId: String) {
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Text(
-                            text = "Payment Terms",
+                            text = stringResource(R.string.payment_terms),
                             style = MaterialTheme.typography.titleSmall
                         )
                         
                         Spacer(modifier = Modifier.height(8.dp))
                         
                         Text(
-                            text = "By proceeding with the payment, you agree that the amount will be held securely until the service is completed. The payment will be released to the pet sitter after you confirm the completion of the service.",
+                            text = stringResource(R.string.payment_conditions),
                             style = MaterialTheme.typography.bodySmall
                         )
                     }
@@ -397,7 +399,7 @@ fun PaymentMethodModal(
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    text = "Select Payment Method",
+                    text = stringResource(R.string.select_payment_method),
                     style = MaterialTheme.typography.titleLarge
                 )
                 
@@ -407,7 +409,7 @@ fun PaymentMethodModal(
                     // Show saved payment methods
                     if (paymentMethods.isEmpty()) {
                         Text(
-                            text = "No saved payment methods",
+                            text = stringResource(R.string.no_saved_payment_methods),
                             style = MaterialTheme.typography.bodyMedium
                         )
                     } else {
@@ -456,7 +458,7 @@ fun PaymentMethodModal(
                     ) {
                         Icon(Icons.Default.Add, contentDescription = null)
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("Add New Card")
+                        Text(stringResource(R.string.add_new_card))
                     }
                 } else {
                     // Card input form
@@ -472,7 +474,7 @@ fun PaymentMethodModal(
                                 cardNumber = it
                             }
                         },
-                        label = { Text("Card Number") },
+                        label = { Text(stringResource(R.string.card_number)) },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -482,7 +484,7 @@ fun PaymentMethodModal(
                     TextField(
                         value = cardHolder,
                         onValueChange = { cardHolder = it },
-                        label = { Text("Card Holder Name") },
+                        label = { Text(stringResource(R.string.card_holder_name)) },
                         modifier = Modifier.fillMaxWidth()
                     )
                     
@@ -503,7 +505,7 @@ fun PaymentMethodModal(
                                     }
                                 }
                             },
-                            label = { Text("MM/YY") },
+                            label = { Text(stringResource(R.string.mm_yy)) },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             modifier = Modifier.weight(1f)
                         )
@@ -517,7 +519,7 @@ fun PaymentMethodModal(
                                     cvv = it
                                 }
                             },
-                            label = { Text("CVV") },
+                            label = { Text(stringResource(R.string.cvv)) },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                             visualTransformation = PasswordVisualTransformation(),
                             modifier = Modifier.weight(1f)
@@ -533,7 +535,7 @@ fun PaymentMethodModal(
                         TextButton(
                             onClick = { isAddingNewCard = false }
                         ) {
-                            Text("Cancel")
+                            Text(stringResource(R.string.cancel))
                         }
                         
                         Spacer(modifier = Modifier.width(8.dp))
@@ -554,7 +556,7 @@ fun PaymentMethodModal(
                                      expiryDate.length == 5 && 
                                      cvv.length == 3
                         ) {
-                            Text("Save Card")
+                            Text(stringResource(R.string.save_card))
                         }
                     }
                 }
