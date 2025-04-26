@@ -32,6 +32,9 @@ android {
             )
             buildConfigField("String", "API_BASE_URL", "\"https://api.begamot.com/\"")
         }
+        debug {
+            buildConfigField("String", "API_BASE_URL", "\"https://api.begamot.com/\"")
+        }
     }
 
     compileOptions {
