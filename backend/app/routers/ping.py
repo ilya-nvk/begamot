@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-router = APIRouter(tags=["misc"])
+router = APIRouter(tags=["ping"])
 
 @router.get("/ping")
 async def ping():

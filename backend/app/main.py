@@ -6,14 +6,14 @@ from fastapi.middleware.cors import CORSMiddleware
 from starlette.requests import Request
 from starlette.responses import Response
 
-from .routers import ping, esia_stub, listings, health
+from .routers import ping, esia_stub, listings, health, users
 
 logging.basicConfig(
     format="%(asctime)s %(levelname)s %(message)s",
     level=logging.INFO,
 )
 
-app = FastAPI(title="Pet Course API", version="1.0.0")
+app = FastAPI(title="Begemot", version="1.0.0")
 
 # CORS (wide‑open for demo)
 app.add_middleware(
@@ -43,4 +43,5 @@ async def add_process_time_header(request: Request, call_next):
 app.include_router(ping.router)
 app.include_router(esia_stub.router)
 app.include_router(listings.router)
+app.include_router(users.router)
 app.include_router(health.router)
