@@ -1,19 +1,23 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.23"
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.hilt)
+    id("com.google.devtools.ksp")
 }
 
 android {
-    namespace = "com.example.petcourse"
-    compileSdk = 34
+    namespace = "com.begamot.pethosting"
+    compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.petcourse"
-        minSdk = 24
-        targetSdk = 34
+        applicationId = "com.begamot.pethosting"
+        minSdk = 29
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -21,11 +25,17 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            buildConfigField("String", "API_BASE_URL", "\"http://localhost:8000/\"")
+            buildConfigField("String", "WEBSOCKET_BASE_URL", "\"http://localhost:8000/\"")
         }
         debug {
-            buildConfigField("String", "API_BASE_URL", "\"https://api.begamot.com/\"")
+            buildConfigField("String", "API_BASE_URL", "\"http://localhost:8000/\"")
+            buildConfigField("String", "WEBSOCKET_BASE_URL", "\"http://localhost:8000/\"")
         }
     }
 
@@ -33,32 +43,70 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+
     kotlinOptions {
         jvmTarget = "17"
     }
+
     buildFeatures {
         compose = true
+        buildConfig = true
     }
+
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.11"
+        kotlinCompilerExtensionVersion = libs.versions.kotlin.get()
     }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+    hilt {
+        enableAggregatingTask = false
+    }
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
 
 dependencies {
-    implementation(platform("androidx.compose:compose-bom:2024.05.00"))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.material3:material3")
-    implementation("androidx.activity:activity-compose:1.9.0")
-    implementation("io.ktor:ktor-client-core:2.3.8")
-    implementation("io.ktor:ktor-client-cio:2.3.8")
-    implementation("io.ktor:ktor-client-content-negotiation:2.3.8")
-    implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.8")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
-    implementation("com.google.android.material:material:1.11.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
+    // AndroidX Core
+    implementation(libs.core.ktx)
+    implementation(libs.appcompat)
+    implementation(libs.material)
+
+    // Compose
+    implementation(libs.bundles.compose)
+    debugImplementation(libs.compose.ui.tooling)
+
+    // Hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+    implementation(libs.hilt.navigation.compose)
+
+    // Room
+    implementation(libs.bundles.room)
+    ksp(libs.room.compiler)
+
+    // Retrofit
+    implementation(libs.bundles.retrofit)
+
+    // Stripe
+    implementation(libs.stripe.android)
+
+    // Coil
+    implementation(libs.coil.compose)
+
+    // Testing
+    testImplementation(libs.bundles.testing)
+    androidTestImplementation(libs.bundles.android.testing)
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.kotlin.test)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
+
 }
