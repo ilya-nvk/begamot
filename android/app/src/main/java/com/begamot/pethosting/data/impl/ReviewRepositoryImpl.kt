@@ -44,7 +44,6 @@ class ReviewRepositoryImpl @Inject constructor(
         }
     }
 
-    // Helper extension functions
     private fun ReviewResponse.toReview(): Review {
         return Review(
                 id = id,

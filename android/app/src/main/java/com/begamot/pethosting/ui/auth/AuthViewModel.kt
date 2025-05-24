@@ -20,7 +20,7 @@ class AuthViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
     private val registerUseCase: RegisterUseCase,
     private val logoutUseCase: LogoutUseCase,
-    private val tokenManager: TokenManager
+    tokenManager: TokenManager
 ) : ViewModel() {
     
     private val _loginState = MutableStateFlow(AuthState())
@@ -78,8 +78,7 @@ class AuthViewModel @Inject constructor(
             _isUserLoggedIn.value = false
         }
     }
-    
-    // Reset states when navigating away
+
     fun resetLoginState() {
         _loginState.value = AuthState()
     }
@@ -88,4 +87,3 @@ class AuthViewModel @Inject constructor(
         _registerState.value = AuthState()
     }
 }
-

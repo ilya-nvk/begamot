@@ -76,13 +76,11 @@ class PaymentViewModel @Inject constructor(
     fun processPayment(listingId: String, paymentMethodId: String, amount: Double) {
         viewModelScope.launch {
             _paymentState.value = PaymentState.Loading
-            
-            // 1. Create payment intent
+
             val intentResult = createPaymentIntentUseCase(amount)
             
             intentResult.fold(
                 onSuccess = { clientSecret ->
-                    // 2. Process the payment
                     val listing = _listing.value ?: run {
                         _paymentState.value = PaymentState.Error("Listing not found")
                         return@launch

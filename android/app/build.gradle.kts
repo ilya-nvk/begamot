@@ -30,10 +30,12 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "API_BASE_URL", "\"https://api.begamot.com/\"")
+            buildConfigField("String", "API_BASE_URL", "\"http://localhost:8000/\"")
+            buildConfigField("String", "WEBSOCKET_BASE_URL", "\"http://localhost:8000/\"")
         }
         debug {
-            buildConfigField("String", "API_BASE_URL", "\"https://api.begamot.com/\"")
+            buildConfigField("String", "API_BASE_URL", "\"http://localhost:8000/\"")
+            buildConfigField("String", "WEBSOCKET_BASE_URL", "\"http://localhost:8000/\"")
         }
     }
 
@@ -64,6 +66,10 @@ android {
     hilt {
         enableAggregatingTask = false
     }
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
 
 dependencies {
@@ -97,4 +103,10 @@ dependencies {
     // Testing
     testImplementation(libs.bundles.testing)
     androidTestImplementation(libs.bundles.android.testing)
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.kotlin.test)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
+
 }

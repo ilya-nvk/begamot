@@ -1,7 +1,6 @@
 package com.begamot.pethosting.data.impl
 
 import com.begamot.pethosting.data.api.ApiService
-import com.begamot.pethosting.data.api.TokenManager
 import com.begamot.pethosting.data.models.Transaction
 import com.begamot.pethosting.data.models.TransactionStatus
 import com.begamot.pethosting.data.models.requestresponse.CreatePaymentIntentRequest
@@ -12,9 +11,8 @@ import javax.inject.Inject
 
 class PaymentRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
-    private val tokenManager: TokenManager
 ) : PaymentRepository {
-    
+
     override suspend fun createPaymentIntent(amount: Double, currency: String): Result<String> {
         return try {
             val request = CreatePaymentIntentRequest(
@@ -31,7 +29,7 @@ class PaymentRepositoryImpl @Inject constructor(
             Result.failure(e)
         }
     }
-    
+
     override suspend fun processPayment(paymentIntentId: String, transaction: Transaction): Result<Transaction> {
         return try {
             val request = ProcessPaymentRequest(
@@ -49,7 +47,7 @@ class PaymentRepositoryImpl @Inject constructor(
             Result.failure(e)
         }
     }
-    
+
     override suspend fun refundPayment(transactionId: String): Result<Transaction> {
         return try {
             val response = apiService.refundPayment(transactionId)
@@ -62,8 +60,7 @@ class PaymentRepositoryImpl @Inject constructor(
             Result.failure(e)
         }
     }
-    
-    // Helper extension functions
+
     private fun TransactionResponse.toTransaction(): Transaction {
         return Transaction(
             id = id,

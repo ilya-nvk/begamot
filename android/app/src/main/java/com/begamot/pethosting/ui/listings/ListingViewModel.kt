@@ -1,8 +1,5 @@
 package com.begamot.pethosting.ui.listings
 
-import android.net.Uri
-import android.os.Parcel
-import android.os.Parcelable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.begamot.pethosting.data.models.Listing
@@ -10,18 +7,13 @@ import com.begamot.pethosting.data.models.Pet
 import com.begamot.pethosting.data.models.User
 import com.begamot.pethosting.domain.models.ListingDetail
 import com.begamot.pethosting.domain.usecases.CreateListingUseCase
-import com.begamot.pethosting.domain.usecases.CreatePetUseCase
 import com.begamot.pethosting.domain.usecases.DeleteListingUseCase
-import com.begamot.pethosting.domain.usecases.DeletePetUseCase
 import com.begamot.pethosting.domain.usecases.GetAllListingsUseCase
 import com.begamot.pethosting.domain.usecases.GetListingDetailsUseCase
 import com.begamot.pethosting.domain.usecases.GetPetByIdUseCase
 import com.begamot.pethosting.domain.usecases.GetUserByIdUseCase
 import com.begamot.pethosting.domain.usecases.GetUserListingsUseCase
-import com.begamot.pethosting.domain.usecases.GetUserPetsUseCase
 import com.begamot.pethosting.domain.usecases.UpdateListingUseCase
-import com.begamot.pethosting.domain.usecases.UpdatePetUseCase
-import com.begamot.pethosting.domain.usecases.UploadPetImageUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -55,8 +47,8 @@ class ListingViewModel @Inject constructor(
     
     private val _actionState = MutableStateFlow<ActionState>(ActionState.Idle)
     val actionState: StateFlow<ActionState> = _actionState.asStateFlow()
-    
-    // Cache for users and pets
+
+
     private val _users = mutableMapOf<String, MutableStateFlow<User?>>()
     private val _pets = mutableMapOf<String, MutableStateFlow<Pet?>>()
 
@@ -115,7 +107,7 @@ class ListingViewModel @Inject constructor(
             result.fold(
                 onSuccess = {
                     _actionState.value = ActionState.Success
-                    loadUserListings() // Reload user listings
+                    loadUserListings() 
                 },
                 onFailure = {
                     _actionState.value = ActionState.Error(it.message ?: "Failed to create listing")
@@ -136,15 +128,15 @@ class ListingViewModel @Inject constructor(
             result.fold(
                 onSuccess = {
                     _actionState.value = ActionState.Success
-                    // Update in both lists if present
+
                     val updatedUserListings = _userListings.value.map { if (it.id == listing.id) listing else it }
                     _userListings.value = updatedUserListings
 
             val updatedListings = _listings.value.map { if (it.id == listing.id) listing else it }
             _listings.value = updatedListings
 
-            // Reload detail if viewing this listing
-            if (_listingDetail.value?.listing?.id == listing.id) {
+
+                    if (_listingDetail.value?.listing?.id == listing.id) {
                 loadListingDetails(listing.id)
             }
                 },
@@ -167,12 +159,9 @@ class ListingViewModel @Inject constructor(
             result.fold(
                     onSuccess = {
                             _actionState.value = ActionState.Success
-
-                            // Remove from both lists if present
                             _userListings.value = _userListings.value.filter { it.id != listingId }
                             _listings.value = _listings.value.filter { it.id != listingId }
 
-                    // Clear detail if viewing this listing
             if (_listingDetail.value?.listing?.id == listingId) {
                 _listingDetail.value = null
             }
