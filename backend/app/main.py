@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from starlette.requests import Request
 from starlette.responses import Response
 
-from .routers import ping, esia_stub, listings, health, users
+from .routers import ping, gosuslugi, listings, users, profiles, reviews, chat, auth, responses
 
 logging.basicConfig(
     format="%(asctime)s %(levelname)s %(message)s",
@@ -41,7 +41,10 @@ async def add_process_time_header(request: Request, call_next):
 
 # Routers
 app.include_router(ping.router)
-app.include_router(esia_stub.router)
+app.include_router(auth.router)
 app.include_router(listings.router)
+app.include_router(responses.router)
 app.include_router(users.router)
-app.include_router(health.router)
+app.include_router(profiles.router)
+app.include_router(reviews.router)
+app.include_router(chat.router)

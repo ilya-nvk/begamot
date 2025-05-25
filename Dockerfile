@@ -10,6 +10,7 @@ COPY backend/requirements.txt .
 # Use pip cache to speed up builds
 RUN --mount=type=cache,target=/root/.cache/pip pip install --no-cache-dir -r requirements.txt
 RUN pip install argon2-cffi
+RUN pip install python-jose[cryptography]
 
 COPY . .
 
