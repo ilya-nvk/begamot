@@ -15,11 +15,8 @@ class Listing(BaseModel):
     per: str
     description: str | None = None
     img: str | None = None
-    viewers: int
-    responses: int
-    def __init__(self):
-        self.viewers = 0
-        self.responses = 0
+    viewers: int = 0
+    responses: int = 0
 
 class Filter(BaseModel):
     species: List[str] | None = None

@@ -12,8 +12,6 @@ async def read_responses(listing_id: int):
     return list(filter(lambda item: item.listing_id == listing_id, _db))
 
 @router.post("/", response_model=Response)
-async def create_response(listing_id: int, responder_id: int, comment: str):
-    data = Response(listing_id=listing_id, responder_id=responder_id,
-                    response_date=datetime.now(), comment=comment)
+async def create_response(data: Response):
     _db.append(data)
     return data

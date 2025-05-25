@@ -5,7 +5,7 @@ from typing import List
 class Response(BaseModel):
     listing_id: int
     responder_id: int
-    response_date: datetime
+    timestamp: datetime = datetime.now()
     comment: str | None = None
 
 _db: List[Response] = []

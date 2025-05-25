@@ -84,7 +84,7 @@ async def private_chat_endpoint(websocket: WebSocket, user_id: str):
             data = await websocket.receive_json()
 
             if data["type"] == "send_message":
-                await manager.send_private_message(
+                await manager.send_message(
                     sender_id=user_id,
                     recipient_id=data["recipient_id"],
                     content=data["content"]

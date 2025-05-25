@@ -8,8 +8,6 @@ class User(BaseModel):
     contact: str
     password: str
     avatar: str | None = None
-    rating: float
-    def __init__(self):
-        self.rating = 0
+    rating: float = 0
 
 _db: List[User] = []

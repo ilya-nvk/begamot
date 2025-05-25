@@ -11,5 +11,11 @@ router = APIRouter(prefix="/profiles", tags=["profiles"])
 async def read_profiles():
     return _db
 
+@router.put("/", response_model=Profile)
+async def update_profile_info(profile_id: int, new_info: str):
+    profile = next((p for p in _db if p.id == profile_id), None)
+    profile.info = new_info
+    return profile
+
 async def create_profile(user_id: int):
     _db.append(Profile(user_id=user_id, info=""))
