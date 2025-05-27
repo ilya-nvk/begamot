@@ -1,0 +1,17 @@
+[project]
+name = "pet_course"
+version = "0.1.0"
+description = "Pet Course API"
+requires-python = ">=3.12"
+
+[tool.black]
+line-length = 88
+target-version = ["py312"]
+
+[tool.ruff]
+line-length = 88
+exclude = ["migrations"]
+
+[tool.mypy]
+python_version = "3.12"
+ignore_missing_imports = true
