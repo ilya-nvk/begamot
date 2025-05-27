@@ -23,15 +23,13 @@ async def read_users():
     return _db
 
 @router.post("/", response_model=User)
-async def create_user(data: User):
-    data.id = next(_pk)
-    # Hashing password
-    data.password = ph.hash(data.password)
+async def create_user(name: str, contact: str, password: str, avatar: str):
+    data = User(id=next(_pk), name=name, contact=contact, password=ph.hash(password), avatar=avatar)
     _db.append(data)
     # Creating profile for new user
     await create_profile(data.id)
     # Logging in
-    #await login(data)
+    await login(data)
     return data
 
 @router.put("/avatar", response_model=User)

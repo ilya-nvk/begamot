@@ -1,6 +1,5 @@
 from pydantic import BaseModel
-from datetime import datetime
-from typing import List
+from typing import Optional
 
 class Token(BaseModel):
     access_token: str
@@ -8,7 +7,7 @@ class Token(BaseModel):
     refresh_token: str
 
 class TokenData(BaseModel):
-    id: int | None = None
+    id: Optional[int] = None
 
 class RefreshTokenRequest(BaseModel):
     refresh_token: str

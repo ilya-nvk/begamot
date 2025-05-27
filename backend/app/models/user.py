@@ -1,13 +1,13 @@
 from pydantic import BaseModel
 from datetime import datetime
-from typing import List
+from typing import List, Optional
 
 class User(BaseModel):
     id: int
     name: str
     contact: str
     password: str
-    avatar: str | None = None
+    avatar: Optional[str] = None
     rating: float = 0
 
 _db: List[User] = []

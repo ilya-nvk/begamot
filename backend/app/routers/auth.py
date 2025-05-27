@@ -62,9 +62,9 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
     return user
 
 @router.post("/login", response_model=Token)
-async def login(user_data: User):
+async def login(contact: str, password: str):
     # Find user by contact
-    user = next((user for user in _db if user.contact == user_data.username), None)
+    user = next((user for user in _db if user.contact == contact), None)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -74,7 +74,7 @@ async def login(user_data: User):
     # Verify password
     ph = PasswordHasher()
     try:
-        ph.verify(user.password, user_data.password)
+        ph.verify(user.password, password)
     except VerifyMismatchError:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

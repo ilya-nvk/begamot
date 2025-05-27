@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from starlette.requests import Request
 from starlette.responses import Response
 
-from .routers import ping, gosuslugi, listings, users, profiles, reviews, chat, auth, responses
+from .routers import ping, listings, users, profiles, reviews, chat, auth, responses
 
 logging.basicConfig(
     format="%(asctime)s %(levelname)s %(message)s",
@@ -15,7 +15,6 @@ logging.basicConfig(
 
 app = FastAPI(title="Begemot", version="1.0.0")
 
-# CORS (wide‑open for demo)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -30,12 +29,12 @@ async def add_process_time_header(request: Request, call_next):
     response: Response = await call_next(request)
     duration = perf_counter() - start
     logging.info(
-        "%s %s -> %s %.2f ms",
+        "%s %s -> %s %.2fвЂЇms",
         request.method,
         request.url.path,
         response.status_code,
         duration * 1_000,
-    )
+        )
     response.headers["X-Process-Time"] = str(round(duration, 3))
     return response
 

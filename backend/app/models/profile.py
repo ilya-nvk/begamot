@@ -1,9 +1,9 @@
 from pydantic import BaseModel
 from datetime import datetime
-from typing import List
+from typing import List, Optional
 
 class Profile(BaseModel):
     user_id: int
-    info: str | None = None
+    info: Optional[str] = None
 
 _db: List[Profile] = []
